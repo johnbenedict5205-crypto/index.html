@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple Registration Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Poppins', sans-serif;
+      background-image: url('jrd logo.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed; /* Subtle parallax effect */
+      overflow: hidden; /* Prevent scroll issues */
+    }
+
+    .register-box {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(15px);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      width: 400px;
+      max-width: 90%;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      animation: slideIn 0.8s ease-out;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .logo {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid rgba(255, 255, 255, 0.8);
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin-bottom: 5px;
+      font-weight: 500;
+      color: #555;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0 20px 0;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.8);
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #28a745;
+      box-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+      background: rgba(255, 255, 255, 1);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #28a745, #218838);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #218838, #1e7e34);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .links {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .links a {
+      color: #007BFF;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .links a:hover {
+      color: #0056b3;
+      text-decoration: underline;
+    }
+  </style>
+
+  <script>
+    function registerAccount(event) {
+      event.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const confirm = document.getElementById("confirm").value;
+
+      if (password !== confirm) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      const account = { email, password, role: "user" };
+      localStorage.setItem("account", JSON.stringify(account));
+
+      alert("Account registered successfully! Redirecting to login...");
+      window.location.href = "in log.html";
+    }
+  </script>
+</head>
+<body>
+
+  <div class="register-box">
+    <img src="jrd logo.jpg" alt="Logo" class="logo">
+
+    <h2>Registration</h2>
+
+    <form onsubmit="registerAccount(event)">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+      <label for="confirm">Confirm Password:</label>
+      <input type="password" id="confirm" name="confirm" placeholder="Confirm your password" required>
+
+      <button type="submit">Register</button>
+    </form>
+
+    <div class="links">
+      <p>Already have an account? <a href="in log.html">Login here</a></p>
+    </div>
+  </div>
+
+</body>
+</html>

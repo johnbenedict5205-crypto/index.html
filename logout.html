@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logout Example</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Poppins', sans-serif;
+      background-image: url("jrd mami house.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed; /* Adds a subtle parallax effect */
+    }
+
+    .dashboard {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      width: 400px;
+      max-width: 90%;
+      backdrop-filter: blur(10px); /* Modern glassmorphism effect */
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    h1 {
+      font-size: 28px;
+      color: #333;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 16px;
+      color: #666;
+      margin-bottom: 30px;
+      font-weight: 300;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #007BFF, #0056b3);
+      color: white;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #0056b3, #003d7a);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    /* Add a subtle animation for the dashboard */
+    .dashboard {
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+
+  <script>
+    // Simulate login (for demo purposes)
+    function simulateLogin() {
+      sessionStorage.setItem("user", "John");
+      alert("User logged in! Click Logout to end session.");
+    }
+
+    // Logout function
+    function logout() {
+      // Clear session
+      sessionStorage.removeItem("user");
+
+      // Show message
+      alert("You have been logged out!");
+
+      // Redirect to login page
+      window.location.href = "in log.html";
+    }
+  </script>
+</head>
+<body>
+  <div class="dashboard">
+    <h1>Thank you for being our customer</h1>
+    <p>Your purchase brightened our day!</p>
+    <button onclick="logout()">Logout</button>
+  </div>
+</body>
+</html>

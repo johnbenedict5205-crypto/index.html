@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jrd Mami House - Food Order</title>
+  <style>
+    body {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    header {
+      background-color: #00B14F;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    header .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    header .user-icon {
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding: 20px;
+    }
+
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      flex: 2;
+    }
+
+    .food-card {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      background: white;
+      width: 250px;
+      transition: 0.3s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .food-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    .food-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .food-card h3 {
+      margin: 10px 0;
+      font-size: 18px;
+    }
+
+    .food-card p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .food-card .price {
+      font-weight: bold;
+      color: #00B14F;
+      font-size: 16px;
+    }
+
+    .food-card select {
+      margin: 10px 0;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+    }
+
+    .food-card .options {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .food-card button {
+      padding: 8px 12px;
+      background: #00B14F;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .food-card button:hover {
+      background: #009a44;
+    }
+
+    .cart-summary {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      width: 300px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 20px;
+    }
+
+    .cart-summary h2 {
+      margin-top: 0;
+      color: #00B14F;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .cart-total {
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+      font-weight: bold;
+    }
+
+    .place-order-btn {
+      width: 100%;
+      padding: 8px 12px;
+      background: #00B14F;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .place-order-btn:hover {
+      background: #009a44;
+    }
+
+    .customer-name {
+      margin-bottom: 20px;
+    }
+
+    .customer-name label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .customer-name input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    .payment-method {
+      margin-top: 20px;
+    }
+
+    .payment-method h3 {
+      margin-bottom: 10px;
+    }
+
+    .payment-option {
+      display: flex;
+      align-items: center;
+      background: #f9f9f9;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .payment-option:hover {
+      background: #e0e0e0;
+    }
+
+    .payment-option input[type="radio"] {
+      margin-right: 10px;
+    }
+
+    .qr-code {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .qr-code img {
+      width: 150px;
+      height: 150px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .settings-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #00B14F;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+
+    .settings-menu {
+      display: none;
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 999;
+    }
+
+    .settings-menu a {
+      display: block;
+      padding: 8px 0;
+      color: #333;
+      text-decoration: none;
+    }
+
+    .settings-menu a:hover {
+      color: #00B14F;
+    }
+
+    @media (max-width: 768px) {
+      .container { flex-direction: column; }
+      .cart-summary { width: 100%; }
+      .food-card { width: 100%; max-width: 400px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Jrd Mami House</div>
+  <div class="user-icon">👤</div>
+</header>
+
+<div class="container">
+
+  <div id="orderForm" class="menu">
+    <!-- Food Cards (unchanged except for the replaced ones) -->
+    <!-- Pancit Guisado -->
+    <div class="food-card">
+      <img src="pancit guisado.jpg" alt="Pancit Guisado">
+      <h3>Pancit Guisado</h3>
+      <p>Delicious stir-fried noodles with vegetables and meat.</p>
+      <div class="price">₱80</div>
+      <input type="checkbox" name="order" value="Pancit Guisado"> Select
+      <br> Quantity:
+      <select name="qty_pancit">
+        <option value="1">1</option><option value="2">2</option>
+        <option value="3">3</option><option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <div class="options">
+        <button onclick="setOption('Pancit Guisado','Dine In')">Dine In</button>
+        <button onclick="setOption('Pancit Guisado','Take Out')">Take Out</button>
+      </div>
+    </div>
+
+    <!-- Special Mami -->
+    <div class="food-card">
+      <img src="mami.jpg" alt="Special Mami">
+      <h3>Special Mami</h3>
+      <p>Hot noodle soup with egg and special toppings.</p>
+      <div class="price">₱60</div>
+      <input type="checkbox" name="order" value="Special Mami"> Select
+      <br> Quantity:
+      <select name="qty_mami">
+        <option value="1">1</option><option value="2">2</option>
+        <option value="3">3</option><option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <div class="options">
+        <button onclick="setOption('Special Mami','Dine In')">Dine In</button>
+        <button onclick="setOption('Special Mami','Take Out')">Take Out</button>
+      </div>
+    </div>
+
+    <!-- Tokwat Baboy -->
+    <div class="food-card">
+      <img src="tokwat baboy.jpg" alt="Tokwat Baboy">
+      <h3>Tokwat Baboy</h3>
+      <p>Crispy fried pork with soy sauce and vinegar.</p>
+      <div class="price">₱50</div>
+      <input type="checkbox" name="order" value="Tokwat Baboy"> Select
+      <br> Quantity:
+      <select name="qty_tokwat">
+        <option value="1">1</option><option value="2">2</option>
+        <option value="3">3</option><option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <div class="options">
+        <button onclick="setOption('Tokwat Baboy','Dine In')">Dine In</button>
+        <button onclick="setOption('Tokwat Baboy','Take Out')">Take Out</button>
+      </div>
+    </div>
+
+    <!-- Chicken Fillet (Replaced Sinigang na Baboy) -->
+    <div class="food-card">
+      <img src="chicken fillet.jpg" alt="Chicken Fillet">
+      <h3>Chicken Fillet</h3>
+      <p>Juicy and tender grilled chicken fillet served with sides.</p>
+      <div class="price">₱80</div>
+      <input type="checkbox" name="order" value="Chicken Fillet"> Select
+      <br> Quantity:
+      <select name="qty_chickenfillet">
+        <option value="1">1</option><option value="2">2</option>
+        <option value="3">3</option><option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <div class="options">
+        <button onclick="setOption('Chicken Fillet','Dine In')">Dine In</button>
+        <button onclick="setOption('Chicken Fillet','Take Out')">Take Out</button>
+      </div>
+    </div>
+
+    <!-- Spicy BBQ Fillet (Replaced Chicken Adobo) -->
+    <div class="food-card">
+      <img src="spicy bbq fillet.jpg" alt="Spicy BBQ Fillet">
+      <h3>Spicy BBQ Fillet</h3>
+      <p>Spicy barbecue chicken fillet with a tangy sauce.</p>
+      <div class="price">₱90</div>
+      <input type="checkbox" name="order" value="Spicy BBQ Fillet"> Select
+      <br> Quantity:
+      <select name="qty_spicybbq">
+        <option value="1">1</option><option value="2">2</option>
+        <option value="3">3</option><option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <div class="options">
+        <button onclick="setOption('Spicy BBQ Fillet','Dine In')">Dine In</button>
+        <button onclick="setOption('Spicy BBQ Fillet','Take Out')">Take Out</button>
+      </div>
+    </div>
+
+    <!-- Cheesy Fillet (Replaced Lumpia) -->
+    <div class="food-card">
+      <img src="cheesy fillet.jpg" alt="Cheesy Fillet">
+      <h3>Cheesy Fillet</h3>
+      <p>Crispy chicken fillet topped with melted cheese.</p>
+      <div class="price">₱90</div>
+      <input type="checkbox" name="order" value="Cheesy Fillet"> Select
+      <br> Quantity:
+      <select name="qty_cheesyfillet">
+        <option value="1">1</option><option value="2">2</option>
+        <option value="3">3</option><option value="4">4</option>
+        <option value="5">5</option>
+      </select>
+      <div class="options">
+        <button onclick="setOption('Cheesy Fillet','Dine In')">Dine In</button>
+        <button onclick="setOption('Cheesy Fillet','Take Out')">Take Out</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cart-summary">
+    <h2>Order Summary</h2>
+
+    <div class="customer-name">
+      <label for="customerName">Customer Name:</label>
+      <input type="text" id="customerName" placeholder="Enter your name" required>
+    </div>
+
+    <ul id="orderList"></ul>
+    <div class="cart-total" id="orderTotal">Total: ₱0</div>
+
+    <div class="payment-method">
+      <h3>Payment Method</h3>
+
+      <label class="payment-option">
+        <input type="radio" name="payment" value="Cash" checked> 💵 Cash
+      </label>
+
+      <label class="payment-option">
+        <input type="radio" name="payment" value="GCash"> GCash
+      </label>
+
+      <div class="qr-code" id="qrCode">
+        <p>Scan QR Code to Pay</p>
+        <img src="qrcode.jpg" alt="GCash QR Code">
+      </div>
+    </div>
+
+    <button id="placeOrderBtn" class="place-order-btn">Place Order</button>
+
+    <a href="logout.html" class="checkout-btn" id="nextBtn" style="display:none;">Next → Log Out</a>
+  </div>
+</div>
+
+<!-- Settings Button -->
+<button class="settings-btn" onclick="toggleSettings()">⚙</button>
+
+<!-- Settings Menu -->
+<div class="settings-menu" id="settingsMenu">
+  <a href="changepassword user.html">Change Password</a>
+</div>
+
+<script>
+  let orderOptions = {
+    "Pancit Guisado": "",
+    "Special Mami": "",
+    "Tokwat Baboy": "",
+    "Chicken Fillet": "",
+    "Spicy BBQ Fillet": "",
+    "Cheesy Fillet": ""
+  };
+
+  function setOption(item, option) {
+    orderOptions[item] = option;
+  }
+
+  function toggleSettings() {
+    const menu = document.getElementById("settingsMenu");
+    menu.style.display = menu.style.display === "block" ? "none" : "block";
+  }
+
+  const paymentOptions = document.querySelectorAll('input[name="payment"]');
+  const qrCode = document.getElementById('qrCode');
+
+  paymentOptions.forEach(option => {
+    option.addEventListener('change', function() {
+      qrCode.style.display = this.value === 'GCash' ? 'block' : 'none';
+    });
+  });
+
+  const placeOrderBtn = document.getElementById("placeOrderBtn");
+  const orderList = document.getElementById("orderList");
+  const orderTotal = document.getElementById("orderTotal");
+  const nextBtn = document.getElementById("nextBtn");
+  const customerNameInput = document.getElementById("customerName");
+
+  placeOrderBtn.addEventListener("click", function(event) {
+    event.preventDefault();
+
+    const customerName = customerNameInput.value.trim();
+    if (!customerName) {
+      alert("Please enter your name.");
+      return;
+    }
+
+    orderList.innerHTML = "";
+    let hasOrder = false;
+    let total = 0;
+
+    const payment = document.querySelector('input[name="payment"]:checked');
+    if (!payment) return alert("Please select payment method!");
+
+    const items = [
+      {name:"Pancit Guisado", qty:document.querySelector("[name='qty_pancit']"), price:80},
+      {name:"Special Mami", qty:document.querySelector("[name='qty_mami']"), price:60},
+      {name:"Tokwat Baboy", qty:document.querySelector("[name='qty_tokwat']"), price:50},
+      {name:"Chicken Fillet", qty:document.querySelector("[name='qty_chickenfillet']"), price:90},
+      {name:"Spicy BBQ Fillet", qty:document.querySelector("[name='qty_spicybbq']"), price:70},
+      {name:"Cheesy Fillet", qty:document.querySelector("[name='qty_cheesyfillet']"), price:40}
+    ];
+
+    items.forEach(i => {
+      let checkbox = document.querySelector(`input[value="${i.name}"]`);
+
+      if (checkbox.checked) {
+        hasOrder = true;
+        let qty = parseInt(i.qty.value);
+        let cost = qty * i.price;
+        total += cost;
+
+        let li = document.createElement("li");
+        li.textContent = `${i.name} x ${qty} (${orderOptions[i.name] || "N/A"}) = ₱${cost}`;
+        orderList.appendChild(li);
+      }
+    });
+
+    if (!hasOrder) {
+      alert("Please select at least one order.");
+      return;
+    }
+
+    orderTotal.textContent = `Total: ₱${total}`;
+    nextBtn.style.display = "block";
+  });
+</script>
+
+</body>
+</html>
